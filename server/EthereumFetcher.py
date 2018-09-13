@@ -30,7 +30,7 @@ class EthereumFetcher(object):
             for data in datas:
                 if abs(data[2]) >= self.config.get("eth_order_threshold"):
                     print("Whales order filled at {} :{}".format(data[-1], data[2]))
-                    new_data.append({"time":data[1],"amount":data[2]})
+                    new_data.append({"time":data[1],"amount":data[2],"price":data[-1]})
             return new_data
 
         def cur_time():
