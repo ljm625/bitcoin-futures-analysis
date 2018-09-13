@@ -7,3 +7,5 @@ mongo_username : admin
 mongo_password : admin
 
 eth_order_fetch_uri : https://api.bitfinex.com/v2/trades/tETHUSD/hist?limit=500&start={}&end={}
+
+eth_order_threshold : 100

@@ -10,7 +10,7 @@ class DataFecher(object):
 
     async def fetch(self,session, url):
         async with session.get(url) as response:
-            return await response.text()
+            return await response.json()
 
     async def test(self):
         async with aiohttp.ClientSession() as session:
