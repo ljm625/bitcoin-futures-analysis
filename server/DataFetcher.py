@@ -6,7 +6,7 @@ import aiohttp
 class DataFecher(object):
 
     def __init__(self):
-        pass        
+        pass
 
     async def fetch(self,session, url):
         async with session.get(url) as response:
