@@ -7,7 +7,7 @@ from DataFetcher import DataFecher
 from MongoController import MongoController
 
 
-class EthereumFetcher(object):
+class BitcoinFetcher(object):
     """
 
     """
@@ -19,7 +19,7 @@ class EthereumFetcher(object):
 
         self.config=yaml_loader()
         self.db_handler = MongoController(self.config.get("mongo_uri"),self.config.get("mongo_username"),self.config.get("mongo_password"))
-        self.db_name = "ethereum"
+        self.db_name = "bitcoin"
         self.coll_name = "orders"
 
         pass
@@ -28,8 +28,8 @@ class EthereumFetcher(object):
         def generate_data(datas):
             new_data = []
             for data in datas:
-                if abs(data[2]) >= self.config.get("eth_order_threshold"):
-                    print("ETH order filled at {} :{}".format(data[-1], data[2]))
+                if abs(data[2]) >= self.config.get("btc_order_threshold"):
+                    print("BTC order filled at {} :{}".format(data[-1], data[2]))
                     new_data.append({"time":data[1],"amount":data[2],"price":data[-1]})
             return new_data
 
@@ -40,12 +40,11 @@ class EthereumFetcher(object):
             while True:
                 await asyncio.sleep(self.config.get("fetch_interval"))
                 now_time = cur_time()
-                data = await DataFecher().fetch(session,self.config.get("eth_order_fetch_uri").format(last_time,now_time))
-                print(self.config.get("eth_order_fetch_uri").format(last_time,now_time))
+                data = await DataFecher().fetch(session,self.config.get("btc_order_fetch_uri").format(last_time,now_time))
+                print(self.config.get("btc_order_fetch_uri").format(last_time,now_time))
                 last_time=now_time
                 new_data=generate_data(data)
                 if new_data:
-                    # pass
                     await self.write_data_to_db(new_data)
 
 
