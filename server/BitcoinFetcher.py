@@ -38,7 +38,7 @@ class BitcoinFetcher(object):
         async with aiohttp.ClientSession() as session:
             last_time = cur_time()
             while True:
-                await asyncio.sleep(self.config.get("fetch_interval"))
+                await asyncio.sleep(int(self.config.get("fetch_interval")))
                 now_time = cur_time()
                 data = await DataFecher().fetch(session,self.config.get("btc_order_fetch_uri").format(last_time,now_time))
                 print(self.config.get("btc_order_fetch_uri").format(last_time,now_time))
