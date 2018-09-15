@@ -2,4 +2,4 @@ dnspython
 pymongo
 motor
 aiohttp
-
+pyyaml

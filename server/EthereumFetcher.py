@@ -35,6 +35,7 @@ class EthereumFetcher(object):
 
         def cur_time():
             return int(time.time()*1000)
+
         async with aiohttp.ClientSession() as session:
             last_time = cur_time()
             while True:
