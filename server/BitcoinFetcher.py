@@ -38,14 +38,17 @@ class BitcoinFetcher(object):
         async with aiohttp.ClientSession() as session:
             last_time = cur_time()
             while True:
-                await asyncio.sleep(int(self.config.get("fetch_interval")))
-                now_time = cur_time()
-                data = await DataFecher().fetch(session,self.config.get("btc_order_fetch_uri").format(last_time,now_time))
-                print(self.config.get("btc_order_fetch_uri").format(last_time,now_time))
-                last_time=now_time
-                new_data=generate_data(data)
-                if new_data:
-                    await self.write_data_to_db(new_data)
+                try:
+                    await asyncio.sleep(int(self.config.get("fetch_interval")))
+                    now_time = cur_time()
+                    data = await DataFecher().fetch(session,self.config.get("btc_order_fetch_uri").format(last_time,now_time))
+                    print(self.config.get("btc_order_fetch_uri").format(last_time,now_time))
+                    last_time=now_time
+                    new_data=generate_data(data)
+                    if new_data:
+                        await self.write_data_to_db(new_data)
+                except Exception as e:
+                    print("Exception Occured.")
 
 
     async def write_data_to_db(self,data):
