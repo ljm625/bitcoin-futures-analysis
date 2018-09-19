@@ -13,8 +13,8 @@ class MongoController(object):
     async def get(self,db,coll,query_string):
         cursor = self.client[db][coll].find(query_string)
         datas = []
-        for data in await cursor.to_list(length=100):
-            data.append(data)
+        for data in await cursor.to_list(length=10000):
+            datas.append(data)
         return datas
 
 
