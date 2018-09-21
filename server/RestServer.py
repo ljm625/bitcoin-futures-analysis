@@ -37,7 +37,7 @@ class OrderDataHandler(tornado.web.RequestHandler):
                 result = await self._dp.get_order_data("bitcoin",data.get("period"),data.get("interval"),data.get("start_date"))
                 self.write(json.dumps({"price":result[0],"amount":result[1]}))
         except Exception as e:
-            self.write(json.dumps({"result":"error","error":str(e)}))
+            self.write(json.dumps({"error":str(e)}))
 
 
 if __name__ == "__main__":
