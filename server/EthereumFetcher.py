@@ -52,6 +52,8 @@ class EthereumFetcher(object):
                 except Exception as e:
                     print("Exception Occured.")
 
+
+
     async def write_data_to_db(self,data):
         await self.db_handler.insert_many(self.db_name,self.coll_name,data)
 
