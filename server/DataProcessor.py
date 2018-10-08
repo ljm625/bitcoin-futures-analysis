@@ -20,6 +20,14 @@ class DataProcessor(object):
         self.db_handler = MongoController(self.config.get("mongo_uri"),self.config.get("mongo_username"),self.config.get("mongo_password"))
 
 
+    @staticmethod
+    def coin_name_convert(name):
+        coin_dict = dict(zip(["btc","eth","bitcoin","ethereum"],["bitcoin","ethereum","btc","eth"]))
+        if coin_dict.get(name):
+            return coin_dict.get(name)
+        return None
+
+
     async def get_order_data(self,coin,period,interval,start_date=None,minimum=None):
         """
 
@@ -73,7 +81,7 @@ class DataProcessor(object):
             if data.get(interval):
                 ts = data.get(interval)
             resp = requests.get(
-                    self.config.get("{}_candle_fetch_uri".format(coin)).format(ts, start_time,end_time))
+                    self.config.get("{}_candle_fetch_uri".format(self.coin_name_convert(coin))).format(ts, start_time,end_time))
             return resp.json()
 
         if not start_date:
