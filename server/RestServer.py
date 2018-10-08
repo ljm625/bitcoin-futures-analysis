@@ -107,10 +107,10 @@ class VolumeOrderDataHandler(tornado.web.RequestHandler):
             return
         try:
             if coin == "eth":
-                result = await self._dp.get_order_time_series_data("ethereum",data.get("period"),data.get("interval"),data.get("start_date"),minimum=data.get("min"))
+                result = await self._dp.get_order_volume_data("ethereum",data.get("period"),data.get("interval"),data.get("start_date"),minimum=data.get("min"))
                 self.write(json.dumps({"time":result[0],"buy_amount":result[1],"sell_amount":result[2]}))
             elif coin == "btc":
-                result = await self._dp.get_order_time_series_data("bitcoin",data.get("period"),data.get("interval"),data.get("start_date"),minimum=data.get("min"))
+                result = await self._dp.get_order_volume_data("bitcoin",data.get("period"),data.get("interval"),data.get("start_date"),minimum=data.get("min"))
                 self.write(json.dumps({"time":result[0],"buy_amount":result[1],"sell_amount":result[2]}))
         except Exception as e:
             self.write(json.dumps({"error":str(e)}))
@@ -123,6 +123,7 @@ if __name__ == "__main__":
     application = tornado.web.Application([
         (r"/orders/(.[a-zA-Z]+)", OrderDataHandler),
         (r"/time_orders/(.[a-zA-Z]+)", TimeOrderDataHandler),
+        (r"/volume_orders/(.[a-zA-Z]+)", VolumeOrderDataHandler),
 
     ])
     application.listen(9888)
