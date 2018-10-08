@@ -73,7 +73,7 @@ class DataProcessor(object):
             if data.get(interval):
                 ts = data.get(interval)
             resp = requests.get(
-                    self.config.get("eth_candle_fetch_uri").format(ts, start_time,end_time))
+                    self.config.get("{}_candle_fetch_uri".format(coin)).format(ts, start_time,end_time))
             return resp.json()
 
         if not start_date:
@@ -113,44 +113,6 @@ class DataProcessor(object):
 
         return [x,y,y2]
 
-    async def draw_time_series_order_percentage(collection, start_time, end_time, period, filter_func=None, *, title=""):
-        def convert_to_datetime64(timestamp):
-            dt = datetime.datetime.utcfromtimestamp(timestamp / 1000)
-            return np.datetime64(dt)
-
-        x = []
-        y2 = []
-
-        result = resp.json()
-        #     pprint(result)
-        for data in result:
-            x.append(data[0])
-            y2.append(data[-1])
-
-        x.reverse()
-        y2.reverse()
-        #     print(x)
-        for i in range(1, len(x)):
-            if x[i] < x[i - 1]:
-                print("What the fuck!")
-        delta = x[1] - x[0]
-
-        cur = coll.find({"time": {"$lt": result[0][0], "$gt": result[-1][0]}})
-        datas = list(cur)
-
-        x_np = np.array([convert_to_datetime64(i) for i in x])
-        y2_np = np.array(y2)
-        y_np = np.zeros(x_np.shape[0])
-        position = 0
-        for data in datas:
-            if position < x_np.shape[0] - 1 and convert_to_datetime64(data["time"]) > x_np[position + 1]:
-                position += 1
-            if not filter_func or filter_func(data):
-                y_np[position] += abs(data["amount"])
-
-        p_np = y_np / y2_np
-        #     print(x_np)
-        #     print(p_np)
 
     async def get_order_time_series_data(self,coin,period,interval,start_date=None,minimum=None):
         """
