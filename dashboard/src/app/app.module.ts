@@ -10,6 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { AppLayoutComponent } from './layout/layout.component';
 import { ChartsComponent } from './charts/charts.component';
+import {ChartsModule} from 'ng2-charts';
 
 registerLocaleData(zh);
 
@@ -24,7 +25,8 @@ registerLocaleData(zh);
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    ChartsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: zh_CN }],
   bootstrap: [AppComponent]

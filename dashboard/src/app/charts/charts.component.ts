@@ -1,6 +1,7 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import { Chart } from 'chart.js';
 
+import {ElementRef} from '@angular/core';
 
 
 
@@ -9,58 +10,26 @@ import { Chart } from 'chart.js';
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.css']
 })
-export class ChartsComponent implements OnInit, AfterViewInit {
-  @ViewChild('lineChart') private chartRef;
-  chart: any;
+export class ChartsComponent {
+  public pieChartLabels:string[] = ["Pending", "InProgress", "OnHold", "Complete", "Cancelled"];
+  public pieChartData:number[] = [21, 39, 10, 14, 16];
+  public pieChartType:string = 'pie';
+  public pieChartOptions:any = {'backgroundColor': [
+    "#FF6384",
+    "#4BC0C0",
+    "#FFCE56",
+    "#E7E9ED",
+    "#36A2EB"
+  ]}
 
-  dataPoints = [{
-    x: 1,
-    y: 10
-  }, {
-    x: 2,
-    y: 20
-  }];
-
-  dataPoints_old = [1,2];
-
-
-  labels = ["old","new"];
-
-  constructor() { }
-
-  ngOnInit() {
-    const ctx = this.chartRef.nativeElement.getContext("2d");
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: this.labels, // your labels array
-        datasets: [
-          {
-            data: this.dataPoints_old, // your data array
-            borderColor: '#00AEFF',
-            fill: false
-          }
-        ]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-        scales: {
-          xAxes: [{
-            display: true
-          }],
-          yAxes: [{
-            display: true
-          }],
-        }
-      }
-    });
-
+  // events on slice click
+  public chartClicked(e:any):void {
+    console.log(e);
   }
 
-  ngAfterViewInit() {
-
+  // event on pie chart slice hover
+  public chartHovered(e:any):void {
+    console.log(e);
   }
 
 }
