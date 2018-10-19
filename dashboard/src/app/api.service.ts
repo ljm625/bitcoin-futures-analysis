@@ -25,16 +25,17 @@ export class ApiService {
   }
 
   private API_URL = 'http://localhost:9010';
-  
+
   private build_url(link, coin) {
     return this.API_URL + '/api/v1/' + link + '' + coin;
   }
 
 
-  public get_orders(coin, period, interval, min): Observable<any> {
+  public get_orders(coin, period, interval,start_date, min): Observable<any> {
     let body = {
       'period': period,
       'interval': interval,
+      'start_date':start_date,
       'min': min,
     };
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
@@ -43,6 +44,31 @@ export class ApiService {
       );
   }
 
+  public get_time_orders(coin, period, interval, start_date, min): Observable<any> {
+    let body = {
+      'period': period,
+      'interval': interval,
+      'start_date':start_date,
+      'min': min,
+    };
+    return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
+      .pipe(
+        catchError(err => this.handleError(err, 'getService:' + id))
+      );
+  }
+
+  public get_volume_orders(coin, period, interval,start_date, min): Observable<any> {
+    let body = {
+      'period': period,
+      'interval': interval,
+      'start_date':start_date,
+      'min': min,
+    };
+    return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
+      .pipe(
+        catchError(err => this.handleError(err, 'getService:' + id))
+      );
+  }
 
 
   // public modify_service(id, body): Observable<any> {
