@@ -12,7 +12,7 @@ import {Observable, throwError} from 'rxjs';
 })
 export class ApiService {
 
-  protected basePath = globals.REST_URL + '/api/v1';
+  // protected basePath = globals.REST_URL + '/api/v1';
   public httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ export class ApiService {
     };
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
       .pipe(
-        catchError(err => this.handleError(err, 'getService:' + id))
+        catchError(err => this.handleError(err, 'getOrders'))
       );
   }
 
@@ -53,20 +53,20 @@ export class ApiService {
     };
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
       .pipe(
-        catchError(err => this.handleError(err, 'getService:' + id))
+        catchError(err => this.handleError(err, 'getTimeOrders'))
       );
   }
 
-  public get_volume_orders(coin, period, interval,start_date, min): Observable<any> {
+  public get_volume_orders(coin, period, interval, start_date, min): Observable<any> {
     let body = {
       'period': period,
       'interval': interval,
-      'start_date':start_date,
+      'start_date': start_date,
       'min': min,
     };
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
       .pipe(
-        catchError(err => this.handleError(err, 'getService:' + id))
+        catchError(err => this.handleError(err, 'getVolumeOrders' ))
       );
   }
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewChildren} from '@angular/core';
 import { Chart } from 'chart.js';
 
 import {ElementRef} from '@angular/core';
@@ -11,25 +11,69 @@ import {ElementRef} from '@angular/core';
   styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent {
-  public pieChartLabels:string[] = ["Pending", "InProgress", "OnHold", "Complete", "Cancelled"];
-  public pieChartData:number[] = [21, 39, 10, 14, 16];
-  public pieChartType:string = 'pie';
-  public pieChartOptions:any = {'backgroundColor': [
-    "#FF6384",
-    "#4BC0C0",
-    "#FFCE56",
-    "#E7E9ED",
-    "#36A2EB"
-  ]}
 
-  // events on slice click
-  public chartClicked(e:any):void {
-    console.log(e);
+  totalCount = 0;
+  @Input() data = [
+    {
+      "name": "18:00",
+      "series": [
+        {
+          "name": "up",
+          "value": 0
+        },
+        {
+          "name": "down",
+          "value": 100
+        },
+      ]
+    },
+    {
+      "name": "19:00",
+      "series": [
+        {
+          "name": "down",
+          "value": 400
+        },
+      ]
+    },
+    {
+      "name": "20:00",
+      "series": [
+        {
+          "name": "up",
+          "value": 300
+        },
+      ]
+    },
+
+  ]
+
+
+
+  view: any[] = [700, 400];
+
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  gradient = false;
+  showLegend = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Country';
+  showYAxisLabel = true;
+  yAxisLabel = 'Population';
+
+  colorScheme = {
+    domain: ['#5AA454','#cf141d']
+  };
+  colorScheme2 = 'vivid';
+
+
+  constructor() {
+    // Object.assign(this, { this.single });
   }
 
-  // event on pie chart slice hover
-  public chartHovered(e:any):void {
-    console.log(e);
+  onSelect(event) {
+    console.log(event);
   }
 
 }
