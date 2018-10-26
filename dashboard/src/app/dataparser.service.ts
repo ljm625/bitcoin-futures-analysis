@@ -10,30 +10,37 @@ export class DataparserService {
   }
 
 
-  generate_bar_data(x_axis, buy_axis, sell_axis) {
+  public generate_bar_data(x_axis, buy_axis, sell_axis, time_axis = false) {
     // The data looks like this : [100,-200,500,300,-400]
     let result = [];
     const datePipe = new DatePipe('en-US');
-
+    let formatted_name = "";
     for (let i = 0; i < x_axis.length; i++) {
+      if (time_axis) {
+        formatted_name = datePipe.transform(x_axis[i], 'h:mm a');
 
-      const myFormattedDate = datePipe.transform(x_axis[i], 'h:mm a');
+      } else {
+        formatted_name = x_axis[i];
 
-      let data = {
-        "name": myFormattedDate,
-        "series": [
+      }
+
+
+      const data = {
+        'name': formatted_name,
+        'series': [
           {
-            "name": "buy",
-            "value": buy_axis[i]
+            'name': 'buy',
+            'value': buy_axis[i]
           },
           {
-            "name": "sell",
-            "value": sell_axis[i]
+            'name': 'sell',
+            'value': sell_axis[i]
           },
         ]
-      }
-      result.append(data)
+      };
+      result.push(data);
     }
+    console.log(result);
     return result;
 
   }

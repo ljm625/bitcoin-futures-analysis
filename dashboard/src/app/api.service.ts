@@ -6,6 +6,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {map, catchError} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
+import {API_SERVER} from './global.config';
 
 @Injectable({
   providedIn: 'root'
@@ -24,20 +25,22 @@ export class ApiService {
   constructor(private  httpClient: HttpClient) {
   }
 
-  private API_URL = 'http://localhost:9010';
 
   private build_url(link, coin) {
-    return this.API_URL + '/api/v1/' + link + '' + coin;
+    return API_SERVER + '/api/v1/' + link + '' + coin;
   }
 
 
-  public get_orders(coin, period, interval,start_date, min): Observable<any> {
+  public get_orders(coin, period, interval, start_date, min): Observable<any> {
+    console.log("API Called");
+    console.log(coin);
     let body = {
       'period': period,
       'interval': interval,
-      'start_date':start_date,
+      'start_date': start_date,
       'min': min,
     };
+    console.log(body);
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
       .pipe(
         catchError(err => this.handleError(err, 'getOrders'))
@@ -48,7 +51,7 @@ export class ApiService {
     let body = {
       'period': period,
       'interval': interval,
-      'start_date':start_date,
+      'start_date': start_date,
       'min': min,
     };
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
@@ -66,7 +69,7 @@ export class ApiService {
     };
     return this.httpClient.post(this.build_url('orders/', coin), JSON.stringify(body), this.httpOptions)
       .pipe(
-        catchError(err => this.handleError(err, 'getVolumeOrders' ))
+        catchError(err => this.handleError(err, 'getVolumeOrders'))
       );
   }
 
@@ -79,8 +82,6 @@ export class ApiService {
   //     );
   //
   // }
-
-
 
 
   private handleError(error, operation) {

@@ -55,12 +55,11 @@ class DataProcessor(object):
             if minimum:
                 if abs(data['amount'])<minimum:
                     continue
-            y[int((data["price"] - min_price) // interval)] += abs(data["amount"])
-            y2[int((data["price"] - min_price) // interval)] += data["amount"]
-        for i in range(0, len(x)):
-            if y2[i] < 0:
-                y[i] = -y[i]
-        return [x,y]
+            if data["amount"]>= 0:
+                y[int((data["price"] - min_price) // interval)] += abs(data["amount"])
+            else:
+                y2[int((data["price"] - min_price) // interval)] += abs(data["amount"])
+        return [x,y,y2]
 
     async def get_order_volume_data(self,coin,period,interval,start_date=None,minimum=None):
         """

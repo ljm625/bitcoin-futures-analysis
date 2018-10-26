@@ -46,11 +46,11 @@ export class ChartsComponent {
       ]
     },
 
-  ]
+  ];
 
 
 
-  view: any[] = [700, 400];
+  @Input() view: any[] = [800, 400];
 
   // options
   showXAxis = true;
@@ -58,12 +58,12 @@ export class ChartsComponent {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  @Input() xAxisLabel = 'Time';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  @Input() yAxisLabel = 'Amount';
 
   colorScheme = {
-    domain: ['#5AA454','#cf141d']
+    domain: ['#5AA454', '#cf141d']
   };
   colorScheme2 = 'vivid';
 
